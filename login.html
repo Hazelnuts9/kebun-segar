@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kebun Segar — Masuk / Daftar</title>
+<meta name="description" content="Kebun Segar, toko buah dan sayur segar online. Masuk atau daftar untuk mulai belanja.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-green-50">
+
+<header class="sticky top-0 z-10 bg-white/90 backdrop-blur-sm border-b border-green-200">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
+    <a class="flex items-center gap-2" href="#top">
+      <img class="w-9 h-9" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='24' cy='34' r='16' fill='%2316a34a'/><circle cx='40' cy='30' r='12' fill='%23fbbf24'/><path d='M22 18c2-4 6-6 8-4' stroke='%23166534' stroke-width='3' fill='none' stroke-linecap='round'/></svg>" alt="Logo Kebun Segar: ilustrasi buah-buahan">
+      <span class="text-xl font-bold text-green-800">Kebun Segar</span>
+    </a>
+    <p class="text-sm text-slate-600">Belum pernah belanja di sini? Daftar cuma 1 menit.</p>
+  </div>
+</header>
+
+<main id="top">
+  <section aria-label="Sambutan dan autentikasi">
+    <div class="max-w-6xl mx-auto px-6 py-16 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+
+      <div>
+        <p class="inline-flex items-center gap-2 text-sm text-green-800 bg-green-100 border border-green-200 rounded-full px-4 py-2 mb-6">🥦 Dipetik &amp; dikirim hari yang sama</p>
+        <h1 class="text-4xl md:text-5xl font-bold text-green-900 leading-tight mb-4">Segar dari kebun, langsung ke meja makanmu.</h1>
+        <p class="text-lg text-slate-600 mb-6 max-w-prose">Kebun Segar menghadirkan buah dan sayur pilihan dari petani lokal — dipesan online, diantar segar ke rumahmu. Masuk atau daftar untuk mulai belanja.</p>
+        <div class="fruit-bowl" aria-hidden="true">
+          <span class="fruit f1"></span><span class="fruit f2"></span><span class="fruit f3"></span><span class="fruit f4"></span>
+          <span class="bowl"></span>
+        </div>
+      </div>
+
+      <div class="bg-white border border-green-200 rounded-xl shadow-lg p-8 max-w-md mx-auto w-full">
+        <input class="tab-radio" type="radio" name="authtab" id="tab-login" checked>
+        <input class="tab-radio" type="radio" name="authtab" id="tab-register">
+        <div class="tab-labels">
+          <label for="tab-login">Masuk</label>
+          <label for="tab-register">Daftar Akun</label>
+        </div>
+
+        <form class="auth-panel panel-login" action="toko.html" method="get">
+          <fieldset class="border-0 p-0 mb-2">
+            <legend class="sr-only">Formulir masuk</legend>
+            <div class="flex flex-col mb-4">
+              <label class="text-sm text-slate-600 mb-1" for="login-email">Email</label>
+              <input class="border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:border-green-600" type="email" id="login-email" name="email" placeholder="nama@email.com" required>
+            </div>
+            <div class="flex flex-col mb-4">
+              <label class="text-sm text-slate-600 mb-1" for="login-password">Kata Sandi</label>
+              <input class="border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:border-green-600" type="password" id="login-password" name="password" placeholder="Minimal 8 karakter" minlength="8" required>
+            </div>
+            <div class="flex items-center justify-between mb-6 text-sm">
+              <label class="flex items-center gap-2 text-slate-600"><input type="checkbox" name="ingat"> Ingat saya</label>
+              <a class="text-green-700 hover:text-green-700" href="#" title="Pemulihan kata sandi">Lupa kata sandi?</a>
+            </div>
+          </fieldset>
+          <button class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold px-7 py-3 rounded-md shadow transition hover:-translate-y-0.5" type="submit">Masuk ke Toko</button>
+        </form>
+
+        <form class="auth-panel panel-register" action="toko.html" method="get">
+          <fieldset class="border-0 p-0 mb-2">
+            <legend class="sr-only">Formulir daftar akun</legend>
+            <div class="flex flex-col mb-4">
+              <label class="text-sm text-slate-600 mb-1" for="reg-nama">Nama Lengkap</label>
+              <input class="border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:border-green-600" type="text" id="reg-nama" name="nama" placeholder="Nama sesuai identitas" required>
+            </div>
+            <div class="flex flex-col mb-4">
+              <label class="text-sm text-slate-600 mb-1" for="reg-email">Email</label>
+              <input class="border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:border-green-600" type="email" id="reg-email" name="email" placeholder="nama@email.com" required>
+            </div>
+            <div class="flex flex-col mb-4">
+              <label class="text-sm text-slate-600 mb-1" for="reg-hp">Nomor HP</label>
+              <input class="border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:border-green-600" type="tel" id="reg-hp" name="hp" placeholder="08xxxxxxxxxx" pattern="[0-9]{10,14}" title="Masukkan 10 sampai 14 digit angka" required>
+            </div>
+            <div class="flex flex-col mb-4">
+              <label class="text-sm text-slate-600 mb-1" for="reg-password">Buat Kata Sandi</label>
+              <input class="border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:border-green-600" type="password" id="reg-password" name="password" minlength="8" placeholder="Minimal 8 karakter" required>
+            </div>
+            <div class="flex items-center gap-2 mb-6 text-sm text-slate-600">
+              <input type="checkbox" id="reg-setuju" name="setuju" required>
+              <label for="reg-setuju">Saya menyetujui <a class="text-green-700" href="#">Syarat &amp; Ketentuan</a> Kebun Segar.</label>
+            </div>
+          </fieldset>
+          <button class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold px-7 py-3 rounded-md shadow transition hover:-translate-y-0.5" type="submit">Buat Akun &amp; Mulai Belanja</button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="bg-white border-t border-green-200 py-6">
+  <p class="text-center text-sm text-slate-500">&copy; <time datetime="2026">2026</time> Kebun Segar. Dibuat dengan HTML5 &amp; CSS3 murni.</p>
+</footer>
+
+</body>
+</html>
