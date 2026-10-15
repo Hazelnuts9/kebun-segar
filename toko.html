@@ -24,7 +24,11 @@
         <li><a class="nav-link" href="#checkout">Checkout</a></li>
       </ul>
     </nav>
-    <a class="text-sm text-slate-500 hover:text-green-700" href="login.html">Keluar</a>
+    <div class="flex items-center gap-4 text-sm">
+      <span id="sapaan" class="text-slate-600"></span>
+      <a class="text-green-800 font-semibold" href="#keranjang">🛒 Keranjang <span id="jumlah-keranjang" class="badge-count">0</span></a>
+      <a id="tombol-keluar" class="text-slate-500 hover:text-green-700" href="login.html">Keluar</a>
+    </div>
   </div>
 </header>
 
@@ -43,19 +47,19 @@
         <h1 id="produk-judul" class="text-3xl font-bold text-green-900">Produk Segar Hari Ini</h1>
         <details class="relative">
           <summary class="acc-summary text-sm font-semibold text-green-800 bg-green-100 px-4 py-2 rounded-full">Filter &amp; Urutkan</summary>
-          <form class="reveal mt-3 bg-white border border-green-200 rounded-lg shadow p-5 max-w-sm">
+          <form id="form-filter" class="reveal mt-3 bg-white border border-green-200 rounded-lg shadow p-5 max-w-sm">
             <fieldset class="border-0 p-0 mb-3">
               <legend class="text-sm font-semibold text-slate-700 mb-2">Kategori</legend>
-              <label class="flex items-center gap-2 text-sm text-slate-600 mb-1"><input type="checkbox" name="kategori" value="buah" checked> Buah</label>
-              <label class="flex items-center gap-2 text-sm text-slate-600"><input type="checkbox" name="kategori" value="sayur" checked> Sayur</label>
+              <label class="flex items-center gap-2 text-sm text-slate-600 mb-1"><input type="checkbox" id="cek-buah" name="kategori" value="buah" checked> Buah</label>
+              <label class="flex items-center gap-2 text-sm text-slate-600"><input type="checkbox" id="cek-sayur" name="kategori" value="sayur" checked> Sayur</label>
             </fieldset>
             <fieldset class="border-0 p-0 mb-3">
               <legend class="text-sm font-semibold text-slate-700 mb-2">Urutkan</legend>
-              <select class="border border-slate-300 rounded-md px-3 py-2 w-full" name="urutkan">
+              <select class="border border-slate-300 rounded-md px-3 py-2 w-full" id="urutkan" name="urutkan">
                 <option value="terlaris">Terlaris</option>
                 <option value="termurah">Harga Termurah</option>
                 <option value="termahal">Harga Termahal</option>
-                <option value="terbaru">Terbaru</option>
+                <option value="nama">Nama A–Z</option>
               </select>
             </fieldset>
             <button class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md transition" type="submit">Terapkan</button>
@@ -63,10 +67,16 @@
         </details>
       </div>
 
-      <h2 id="buah" class="text-xl font-semibold text-green-800 mb-4">🍎 Buah Segar</h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+      <div class="mb-6">
+        <label class="sr-only" for="cari">Cari produk</label>
+        <input class="border border-slate-300 rounded-md px-3 py-2 w-full max-w-md focus:outline-none focus:border-green-600" type="search" id="cari" placeholder="Cari buah atau sayur...">
+      </div>
+      <p id="produk-kosong" class="hidden text-slate-500 mb-8">Produk tidak ditemukan. Coba kata kunci lain ya.</p>
 
-        <article class="product-card relative">
+      <h2 id="buah" class="text-xl font-semibold text-green-800 mb-4">🍎 Buah Segar</h2>
+      <div id="grid-buah" class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+
+        <article class="product-card relative" data-id="apel" data-nama="Apel Merah" data-harga="25000" data-satuan="kg" data-kategori="buah">
           <span class="badge">Favorit</span>
           <img src="images/apel.jpg" alt="Apel merah segar" loading="lazy">
           <div class="p-4">
@@ -78,12 +88,12 @@
             <div class="flex items-center gap-2">
               <label class="sr-only" for="qty-apel">Jumlah</label>
               <input class="qty-input" type="number" id="qty-apel" min="1" max="20" value="1">
-              <button class="flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-md transition" type="button">+ Keranjang</button>
+              <button class="tombol-tambah flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-md transition" type="button">+ Keranjang</button>
             </div>
           </div>
         </article>
 
-        <article class="product-card relative">
+        <article class="product-card relative" data-id="pisang" data-nama="Pisang Cavendish" data-harga="15000" data-satuan="sisir" data-kategori="buah">
           <img src="images/pisang.jpg" alt="Pisang cavendish segar" loading="lazy">
           <div class="p-4">
             <h3 class="font-semibold text-slate-800 mb-1">Pisang Cavendish</h3>
@@ -94,12 +104,12 @@
             <div class="flex items-center gap-2">
               <label class="sr-only" for="qty-pisang">Jumlah</label>
               <input class="qty-input" type="number" id="qty-pisang" min="1" max="20" value="1">
-              <button class="flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-md transition" type="button">+ Keranjang</button>
+              <button class="tombol-tambah flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-md transition" type="button">+ Keranjang</button>
             </div>
           </div>
         </article>
 
-        <article class="product-card relative">
+        <article class="product-card relative" data-id="jeruk" data-nama="Jeruk Manis" data-harga="20000" data-satuan="kg" data-kategori="buah">
           <img src="images/jeruk.jpg" alt="Jeruk manis segar" loading="lazy">
           <div class="p-4">
             <h3 class="font-semibold text-slate-800 mb-1">Jeruk Manis</h3>
@@ -110,12 +120,12 @@
             <div class="flex items-center gap-2">
               <label class="sr-only" for="qty-jeruk">Jumlah</label>
               <input class="qty-input" type="number" id="qty-jeruk" min="1" max="20" value="1">
-              <button class="flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-md transition" type="button">+ Keranjang</button>
+              <button class="tombol-tambah flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-md transition" type="button">+ Keranjang</button>
             </div>
           </div>
         </article>
 
-        <article class="product-card relative">
+        <article class="product-card relative" data-id="stroberi" data-nama="Stroberi" data-harga="35000" data-satuan="box" data-kategori="buah">
           <span class="badge">Stok Terbatas</span>
           <img src="images/stroberi.jpg" alt="Stroberi segar" loading="lazy">
           <div class="p-4">
@@ -127,16 +137,16 @@
             <div class="flex items-center gap-2">
               <label class="sr-only" for="qty-stroberi">Jumlah</label>
               <input class="qty-input" type="number" id="qty-stroberi" min="1" max="20" value="1">
-              <button class="flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-md transition" type="button">+ Keranjang</button>
+              <button class="tombol-tambah flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-md transition" type="button">+ Keranjang</button>
             </div>
           </div>
         </article>
       </div>
 
       <h2 id="sayur" class="text-xl font-semibold text-green-800 mb-4">🥦 Sayur Segar</h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div id="grid-sayur" class="grid grid-cols-2 md:grid-cols-4 gap-6">
 
-        <article class="product-card relative">
+        <article class="product-card relative" data-id="wortel" data-nama="Wortel" data-harga="12000" data-satuan="kg" data-kategori="sayur">
           <img src="images/wortel.jpg" alt="Wortel segar" loading="lazy">
           <div class="p-4">
             <h3 class="font-semibold text-slate-800 mb-1">Wortel</h3>
@@ -147,12 +157,12 @@
             <div class="flex items-center gap-2">
               <label class="sr-only" for="qty-wortel">Jumlah</label>
               <input class="qty-input" type="number" id="qty-wortel" min="1" max="20" value="1">
-              <button class="flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-md transition" type="button">+ Keranjang</button>
+              <button class="tombol-tambah flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-md transition" type="button">+ Keranjang</button>
             </div>
           </div>
         </article>
 
-        <article class="product-card relative">
+        <article class="product-card relative" data-id="brokoli" data-nama="Brokoli" data-harga="18000" data-satuan="ikat" data-kategori="sayur">
           <img src="images/brokoli.jpg" alt="Brokoli segar" loading="lazy">
           <div class="p-4">
             <h3 class="font-semibold text-slate-800 mb-1">Brokoli</h3>
@@ -163,12 +173,12 @@
             <div class="flex items-center gap-2">
               <label class="sr-only" for="qty-brokoli">Jumlah</label>
               <input class="qty-input" type="number" id="qty-brokoli" min="1" max="20" value="1">
-              <button class="flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-md transition" type="button">+ Keranjang</button>
+              <button class="tombol-tambah flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-md transition" type="button">+ Keranjang</button>
             </div>
           </div>
         </article>
 
-        <article class="product-card relative">
+        <article class="product-card relative" data-id="tomat" data-nama="Tomat" data-harga="10000" data-satuan="kg" data-kategori="sayur">
           <img src="images/tomat.jpg" alt="Tomat segar" loading="lazy">
           <div class="p-4">
             <h3 class="font-semibold text-slate-800 mb-1">Tomat</h3>
@@ -179,12 +189,12 @@
             <div class="flex items-center gap-2">
               <label class="sr-only" for="qty-tomat">Jumlah</label>
               <input class="qty-input" type="number" id="qty-tomat" min="1" max="20" value="1">
-              <button class="flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-md transition" type="button">+ Keranjang</button>
+              <button class="tombol-tambah flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-md transition" type="button">+ Keranjang</button>
             </div>
           </div>
         </article>
 
-        <article class="product-card relative">
+        <article class="product-card relative" data-id="bayam" data-nama="Bayam Merah" data-harga="6000" data-satuan="ikat" data-kategori="sayur">
           <img src="images/bayam.jpg" alt="Bayam merah segar" loading="lazy">
           <div class="p-4">
             <h3 class="font-semibold text-slate-800 mb-1">Bayam Merah</h3>
@@ -195,7 +205,7 @@
             <div class="flex items-center gap-2">
               <label class="sr-only" for="qty-bayam">Jumlah</label>
               <input class="qty-input" type="number" id="qty-bayam" min="1" max="20" value="1">
-              <button class="flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-md transition" type="button">+ Keranjang</button>
+              <button class="tombol-tambah flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold py-2 rounded-md transition" type="button">+ Keranjang</button>
             </div>
           </div>
         </article>
@@ -205,20 +215,33 @@
 
   <section id="keranjang" class="bg-white border-t border-b border-green-200" aria-labelledby="keranjang-judul">
     <div class="max-w-6xl mx-auto px-6 py-12">
-      <h2 id="keranjang-judul" class="text-3xl font-bold text-green-900 mb-6">Keranjang Belanja</h2>
-      <table class="cart-table w-full">
-        <caption class="text-left text-sm text-slate-500 mb-4">Ringkasan barang yang akan dibeli</caption>
-        <thead>
-          <tr class="border-b border-slate-200"><th class="text-left py-3 px-2" scope="col">Produk</th><th class="text-left py-3 px-2" scope="col">Jumlah</th><th class="text-left py-3 px-2" scope="col">Harga Satuan</th><th class="text-left py-3 px-2" scope="col">Subtotal</th></tr>
-        </thead>
-        <tbody>
-          <tr class="border-b border-slate-200"><td class="py-3 px-2">Apel Merah</td><td class="py-3 px-2">2 kg</td><td class="py-3 px-2"><abbr title="Indonesian Rupiah">Rp</abbr> 25.000</td><td class="py-3 px-2"><abbr title="Indonesian Rupiah">Rp</abbr> 50.000</td></tr>
-          <tr class="border-b border-slate-200"><td class="py-3 px-2">Wortel</td><td class="py-3 px-2">1 kg</td><td class="py-3 px-2"><abbr title="Indonesian Rupiah">Rp</abbr> 12.000</td><td class="py-3 px-2"><abbr title="Indonesian Rupiah">Rp</abbr> 12.000</td></tr>
-          <tr><td class="py-3 px-2 font-semibold" colspan="3">Total</td><td class="py-3 px-2 font-bold text-green-700"><abbr title="Indonesian Rupiah">Rp</abbr> 62.000</td></tr>
-        </tbody>
-      </table>
-      <p class="text-sm text-slate-500 mt-4">Status pesanan terakhir kamu:</p>
-      <progress class="w-full mt-1" value="65" max="100" title="Pesanan sedang dikemas, 65% selesai">65%</progress>
+      <div class="flex items-center justify-between flex-wrap gap-4 mb-6">
+        <h2 id="keranjang-judul" class="text-3xl font-bold text-green-900">Keranjang Belanja</h2>
+        <button id="tombol-kosongkan" class="link-hapus" type="button">Kosongkan keranjang</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="cart-table w-full">
+          <caption class="text-left text-sm text-slate-500 mb-4">Ringkasan barang yang akan dibeli</caption>
+          <thead>
+            <tr class="border-b border-slate-200"><th class="text-left py-3 px-2" scope="col">Produk</th><th class="text-left py-3 px-2" scope="col">Jumlah</th><th class="text-left py-3 px-2" scope="col">Harga Satuan</th><th class="text-left py-3 px-2" scope="col">Subtotal</th><th class="text-left py-3 px-2" scope="col">Aksi</th></tr>
+          </thead>
+          <tbody id="isi-keranjang"></tbody>
+          <tfoot>
+            <tr><td class="py-2 px-2 text-slate-600" colspan="3">Subtotal</td><td class="py-2 px-2" id="subtotal-teks">Rp 0</td><td></td></tr>
+            <tr><td class="py-2 px-2 text-slate-600" colspan="3">Diskon</td><td class="py-2 px-2" id="diskon-teks">- Rp 0</td><td></td></tr>
+            <tr><td class="py-2 px-2 text-slate-600" colspan="3">Ongkos kirim</td><td class="py-2 px-2" id="ongkir-teks">Rp 0</td><td></td></tr>
+            <tr class="border-t"><td class="py-3 px-2 font-semibold" colspan="3">Total</td><td class="py-3 px-2 font-bold text-green-700" id="total-teks">Rp 0</td><td></td></tr>
+          </tfoot>
+        </table>
+      </div>
+      <form id="form-promo" class="flex items-center gap-2 flex-wrap mt-6">
+        <label class="text-sm text-slate-600" for="kode-promo">Punya kode promo?</label>
+        <input class="border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:border-green-600" type="text" id="kode-promo" placeholder="Contoh: KEBUN20">
+        <button class="bg-green-100 text-green-800 font-semibold px-4 py-2 rounded-md transition" type="submit">Pakai</button>
+      </form>
+      <p id="pesan-promo" class="text-sm mt-2" role="status"></p>
+      <p class="text-sm text-slate-500 mt-6">Status pesanan terakhir kamu: <span id="teks-status">Belum ada pesanan</span></p>
+      <progress id="progress-pesanan" class="w-full mt-1" value="0" max="100">0%</progress>
     </div>
   </section>
 
@@ -226,7 +249,7 @@
     <div class="max-w-3xl mx-auto px-6 py-16 md:py-20">
       <h2 id="checkout-judul" class="text-3xl font-bold text-green-900 mb-3">Checkout</h2>
       <p class="text-slate-600 mb-6">Lengkapi data pengiriman untuk menyelesaikan pesananmu.</p>
-      <form class="bg-white border border-green-200 rounded-lg shadow-sm p-8" action="#" method="post">
+      <form id="form-checkout" class="bg-white border border-green-200 rounded-lg shadow-sm p-8" action="#" method="post">
         <fieldset class="border border-slate-200 rounded-md p-5 mb-6 transition focus-within:border-green-600 focus-within:bg-green-50">
           <legend class="font-semibold px-2 text-slate-800">Alamat Pengiriman</legend>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -238,6 +261,19 @@
               <label class="text-sm text-slate-500 mb-1" for="hp-checkout">Nomor HP</label>
               <input class="border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:border-green-600" type="tel" id="hp-checkout" name="hp" pattern="[0-9]{10,14}" required>
             </div>
+            <div class="flex flex-col">
+              <label class="text-sm text-slate-500 mb-1" for="provinsi">Provinsi</label>
+              <select class="border border-slate-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:border-green-600" id="provinsi" name="provinsi" required disabled><option value="">Memuat...</option></select>
+            </div>
+            <div class="flex flex-col">
+              <label class="text-sm text-slate-500 mb-1" for="kota">Kota / Kabupaten</label>
+              <select class="border border-slate-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:border-green-600" id="kota" name="kota" required disabled><option value="">-- Pilih kota/kabupaten --</option></select>
+            </div>
+            <div class="flex flex-col md:col-span-2">
+              <label class="text-sm text-slate-500 mb-1" for="kecamatan">Kecamatan</label>
+              <select class="border border-slate-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:border-green-600" id="kecamatan" name="kecamatan" required disabled><option value="">-- Pilih kecamatan --</option></select>
+            </div>
+            <p id="info-wilayah" class="text-sm text-slate-500 md:col-span-2" role="status"></p>
             <div class="flex flex-col md:col-span-2">
               <label class="text-sm text-slate-500 mb-1" for="alamat">Alamat Lengkap</label>
               <textarea class="border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:border-green-600" id="alamat" name="alamat" rows="3" placeholder="Jalan, nomor rumah, kecamatan, kota" required></textarea>
@@ -255,6 +291,7 @@
           <label class="flex items-center gap-2 text-sm text-slate-600"><input type="radio" name="bayar" value="cod"> Bayar di Tempat (COD)</label>
         </fieldset>
         <button class="bg-green-600 hover:bg-green-700 text-white font-semibold px-7 py-3 rounded-md shadow transition hover:-translate-y-0.5" type="submit">Checkout Sekarang</button>
+        <p id="pesan-checkout" class="text-sm mt-4" role="status"></p>
       </form>
     </div>
   </section>
@@ -268,5 +305,9 @@
   </div>
 </footer>
 
+<p id="toast" class="toast" role="status" aria-live="polite"></p>
+
+<script src="toko.js"></script>
+<script src="api.js"></script>
 </body>
 </html>

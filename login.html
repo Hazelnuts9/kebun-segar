@@ -41,7 +41,7 @@
           <label for="tab-register">Daftar Akun</label>
         </div>
 
-        <form class="auth-panel panel-login" action="toko.html" method="get">
+        <form id="form-login" class="auth-panel panel-login" action="toko.html" method="get">
           <fieldset class="border-0 p-0 mb-2">
             <legend class="sr-only">Formulir masuk</legend>
             <div class="flex flex-col mb-4">
@@ -52,15 +52,17 @@
               <label class="text-sm text-slate-600 mb-1" for="login-password">Kata Sandi</label>
               <input class="border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:border-green-600" type="password" id="login-password" name="password" placeholder="Minimal 8 karakter" minlength="8" required>
             </div>
+            <label class="flex items-center gap-2 text-sm text-slate-600 mb-4"><input type="checkbox" id="tampil-sandi-login"> Tampilkan kata sandi</label>
             <div class="flex items-center justify-between mb-6 text-sm">
               <label class="flex items-center gap-2 text-slate-600"><input type="checkbox" name="ingat"> Ingat saya</label>
               <a class="text-green-700 hover:text-green-700" href="#" title="Pemulihan kata sandi">Lupa kata sandi?</a>
             </div>
           </fieldset>
+          <p id="pesan-login" class="text-sm mb-4" role="alert"></p>
           <button class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold px-7 py-3 rounded-md shadow transition hover:-translate-y-0.5" type="submit">Masuk ke Toko</button>
         </form>
 
-        <form class="auth-panel panel-register" action="toko.html" method="get">
+        <form id="form-daftar" class="auth-panel panel-register" action="toko.html" method="get">
           <fieldset class="border-0 p-0 mb-2">
             <legend class="sr-only">Formulir daftar akun</legend>
             <div class="flex flex-col mb-4">
@@ -79,11 +81,13 @@
               <label class="text-sm text-slate-600 mb-1" for="reg-password">Buat Kata Sandi</label>
               <input class="border border-slate-300 rounded-md px-3 py-2 focus:outline-none focus:border-green-600" type="password" id="reg-password" name="password" minlength="8" placeholder="Minimal 8 karakter" required>
             </div>
+            <label class="flex items-center gap-2 text-sm text-slate-600 mb-4"><input type="checkbox" id="tampil-sandi-daftar"> Tampilkan kata sandi</label>
             <div class="flex items-center gap-2 mb-6 text-sm text-slate-600">
               <input type="checkbox" id="reg-setuju" name="setuju" required>
               <label for="reg-setuju">Saya menyetujui <a class="text-green-700" href="#">Syarat &amp; Ketentuan</a> Kebun Segar.</label>
             </div>
           </fieldset>
+          <p id="pesan-daftar" class="text-sm mb-4" role="alert"></p>
           <button class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold px-7 py-3 rounded-md shadow transition hover:-translate-y-0.5" type="submit">Buat Akun &amp; Mulai Belanja</button>
         </form>
       </div>
@@ -96,5 +100,6 @@
   <p class="text-center text-sm text-slate-500">&copy; <time datetime="2026">2026</time> Kebun Segar. Dibuat dengan HTML5 &amp; CSS3 murni.</p>
 </footer>
 
+<script src="login.js"></script>
 </body>
 </html>
