@@ -4,7 +4,6 @@ const formDaftar = document.querySelector("#form-daftar");
 const pesanLogin = document.querySelector("#pesan-login");
 const pesanDaftar = document.querySelector("#pesan-daftar");
 
-// Menampilkan pesan hijau (berhasil) atau merah (gagal)
 function tampilkanPesan(elemen, teks, berhasil) {
   elemen.textContent = teks;
   elemen.className = "text-sm mb-4 " + (berhasil ? "pesan-ok" : "pesan-error");
@@ -13,19 +12,16 @@ function hurufBesarAwal(teks) {
   return teks.charAt(0).toUpperCase() + teks.slice(1);
 }
 
-// Simpan data pengguna, lalu pindah ke halaman toko
 function masukKeToko(nama, email, elemenPesan) {
   const dataUser = { nama: nama, email: email };
-  localStorage.setItem(KUNCI_USER, JSON.stringify(dataUser)); // objek harus diubah jadi teks dulu
+  localStorage.setItem(KUNCI_USER, JSON.stringify(dataUser));
   tampilkanPesan(elemenPesan, "Berhasil! Mengalihkan ke toko...", true);
 
-  // setTimeout = "tunggu 800 milidetik, baru jalankan fungsi ini"
   setTimeout(function () {
     window.location.href = "toko.html";
   }, 800);
 }
 
-// 4) Form MASUK
 formLogin.addEventListener("submit", function (event) {
   event.preventDefault();
 
@@ -37,12 +33,9 @@ formLogin.addEventListener("submit", function (event) {
     return;
   }
 
-  // Nama diambil dari bagian depan email: budi@mail.com -> Budi
-  const nama = hurufBesarAwal(email.split("@")[0]);
   masukKeToko(nama, email, pesanLogin);
 });
 
-// 5) Form DAFTAR
 formDaftar.addEventListener("submit", function (event) {
   event.preventDefault();
 
@@ -51,7 +44,6 @@ formDaftar.addEventListener("submit", function (event) {
   const hp = document.querySelector("#reg-hp").value.trim();
   const sandi = document.querySelector("#reg-password").value;
 
-  // /^[0-9]{10,14}$/ = "hanya angka, panjang 10 sampai 14"
   if (!/^[0-9]{10,14}$/.test(hp)) {
     tampilkanPesan(pesanDaftar, "Nomor HP harus 10-14 digit angka.", false);
     return;
@@ -64,7 +56,6 @@ formDaftar.addEventListener("submit", function (event) {
   masukKeToko(nama, email, pesanDaftar);
 });
 
-// 6) Centang "Tampilkan kata sandi"
 function aturTampilSandi(idCentang, idInput) {
   const centang = document.querySelector(idCentang);
   const kolom = document.querySelector(idInput);

@@ -1,14 +1,13 @@
-const WAJIB_LOGIN = true;          // ganti false kalau mau buka toko.html tanpa login
+const WAJIB_LOGIN = true;
 const KUNCI_USER = "kebunSegarUser";
 const KUNCI_KERANJANG = "kebunSegarKeranjang";
 const KUNCI_PROMO = "kebunSegarPromo";
 
 const KODE_PROMO = "KEBUN20";
-const DISKON_PERSEN = 20;          // diskon 20%
-const GRATIS_ONGKIR_MIN = 100000;  // belanja minimal ini = gratis ongkir
+const DISKON_PERSEN = 20;
+const GRATIS_ONGKIR_MIN = 100000;
 const BIAYA_ONGKIR = 10000;
 
-// ===== 2. AMBIL ELEMEN HTML =====
 const sapaan = document.querySelector("#sapaan");
 const tombolKeluar = document.querySelector("#tombol-keluar");
 const badgeKeranjang = document.querySelector("#jumlah-keranjang");
@@ -44,32 +43,25 @@ const pesanCheckout = document.querySelector("#pesan-checkout");
 const inputTanggal = document.querySelector("#tanggal-kirim");
 const toast = document.querySelector("#toast");
 
-// ===== 3. CEK LOGIN =====
 const dataUserTeks = localStorage.getItem(KUNCI_USER);
 
 if (WAJIB_LOGIN && !dataUserTeks) {
-  // Belum login -> tendang balik ke halaman login
   window.location.href = "login.html";
 }
 
 if (dataUserTeks) {
-  const user = JSON.parse(dataUserTeks); // ubah teks kembali jadi objek
+  const user = JSON.parse(dataUserTeks);
   sapaan.textContent = "Halo, " + user.nama + "!";
 }
 
-// Saat klik "Keluar", hapus data login
 tombolKeluar.addEventListener("click", function () {
   localStorage.removeItem(KUNCI_USER);
 });
 
-// ===== 4. FUNGSI BANTU =====
-
-// 25000 -> "Rp 25.000"
 function formatRupiah(angka) {
   return "Rp " + angka.toLocaleString("id-ID");
 }
 
-// Notifikasi kecil yang muncul sebentar di bawah layar
 let timerToast;
 function tampilToast(teks) {
   toast.textContent = teks;
@@ -80,25 +72,20 @@ function tampilToast(teks) {
   }, 2200);
 }
 
-// Pesan hijau/merah di bawah form
 function tampilkanPesan(elemen, teks, berhasil) {
   elemen.textContent = teks;
   elemen.className = "text-sm " + (elemen === pesanCheckout ? "mt-4 " : "mt-2 ") + (berhasil ? "pesan-ok" : "pesan-error");
 }
 
-// Mengatur progress bar status pesanan
 function setStatusPesanan(persen, teks) {
   progressPesanan.value = persen;
   progressPesanan.textContent = persen + "%";
   teksStatus.textContent = teks;
 }
 
-// ===== 5. KERANJANG =====
-// Keranjang = array (daftar) berisi objek, contohnya:
-// { id: "apel", nama: "Apel Merah", harga: 25000, satuan: "kg", jumlah: 2 }
 let keranjang = [];
 let promoAktif = false;
-let biayaOngkir = BIAYA_ONGKIR; // nilainya diubah oleh api.js sesuai provinsi yang dipilih
+let biayaOngkir = BIAYA_ONGKIR;
 
 function simpanData() {
   localStorage.setItem(KUNCI_KERANJANG, JSON.stringify(keranjang));
@@ -150,7 +137,6 @@ function ubahJumlah(id, perubahan) {
 }
 
 function hapusItem(id) {
-  // filter = simpan semua item KECUALI yang id-nya sama
   keranjang = keranjang.filter(function (item) {
     return item.id !== id;
   });
@@ -175,7 +161,6 @@ function hitungRingkasan() {
   return { subtotal: subtotal, diskon: diskon, ongkir: ongkir, total: subtotal - diskon + ongkir };
 }
 
-// Menggambar ulang tabel keranjang setiap ada perubahan
 function gambarKeranjang() {
   isiKeranjang.innerHTML = "";
 
@@ -206,7 +191,6 @@ function gambarKeranjang() {
   teksOngkir.textContent = hasil.ongkir === 0 && hasil.subtotal > 0 ? "Gratis" : formatRupiah(hasil.ongkir);
   teksTotal.textContent = formatRupiah(hasil.total);
 
-  // Angka merah kecil di samping tulisan "Keranjang" (header)
   let banyak = 0;
   keranjang.forEach(function (item) {
     banyak += item.jumlah;
@@ -214,11 +198,9 @@ function gambarKeranjang() {
   badgeKeranjang.textContent = banyak;
 }
 
-// Klik tombol "+ Keranjang" di kartu produk.
-// Pakai "event delegation": satu pendengar untuk semua tombol.
 document.addEventListener("click", function (event) {
   const tombol = event.target.closest(".tombol-tambah");
-  if (!tombol) return; // yang diklik bukan tombol tambah -> abaikan
+  if (!tombol) return;
 
   const kartu = tombol.closest(".product-card");
   const kolomJumlah = kartu.querySelector(".qty-input");
@@ -234,10 +216,9 @@ document.addEventListener("click", function (event) {
     satuan: kartu.dataset.satuan
   }, jumlah);
 
-  kolomJumlah.value = 1; // kembalikan ke 1
+  kolomJumlah.value = 1;
 });
 
-// Klik tombol -, +, Hapus di dalam tabel keranjang
 isiKeranjang.addEventListener("click", function (event) {
   const tombol = event.target.closest("button");
   if (!tombol) return;
@@ -263,7 +244,7 @@ tombolKosongkan.addEventListener("click", function () {
   }
 });
 
-// ===== 6. KODE PROMO =====
+//KODE PROMO
 formPromo.addEventListener("submit", function (event) {
   event.preventDefault();
   const kode = inputPromo.value.trim().toUpperCase();
@@ -283,9 +264,7 @@ formPromo.addEventListener("submit", function (event) {
   inputPromo.value = "";
 });
 
-// ===== 7. CARI, FILTER & URUTKAN PRODUK =====
-
-// Simpan urutan asli tiap kartu supaya "Terlaris" bisa dikembalikan
+//CARI, FILTER & URUTKAN PRODUK
 semuaKartu.forEach(function (kartu, nomor) {
   kartu.dataset.urutan = nomor;
 });
@@ -297,7 +276,7 @@ function urutkanGrid(grid, cara) {
     if (cara === "termurah") return Number(a.dataset.harga) - Number(b.dataset.harga);
     if (cara === "termahal") return Number(b.dataset.harga) - Number(a.dataset.harga);
     if (cara === "nama") return a.dataset.nama.localeCompare(b.dataset.nama);
-    return Number(a.dataset.urutan) - Number(b.dataset.urutan); // terlaris = urutan asli
+    return Number(a.dataset.urutan) - Number(b.dataset.urutan);
   });
 
   // appendChild memindahkan elemen -> hasilnya tersusun sesuai urutan baru
@@ -334,14 +313,14 @@ function terapkanFilter() {
   pesanKosong.classList.toggle("hidden", jumlahTampil > 0);
 }
 
-inputCari.addEventListener("input", terapkanFilter);   // setiap ketikan
-formFilter.addEventListener("change", terapkanFilter); // setiap centang/pilihan berubah
+inputCari.addEventListener("input", terapkanFilter);
+formFilter.addEventListener("change", terapkanFilter);
 formFilter.addEventListener("submit", function (event) {
   event.preventDefault();
   terapkanFilter();
 });
 
-// ===== 8. CHECKOUT =====
+//CHECKOUT
 formCheckout.addEventListener("submit", function (event) {
   event.preventDefault();
 
@@ -351,27 +330,23 @@ formCheckout.addEventListener("submit", function (event) {
   }
 
   const namaPenerima = document.querySelector("#penerima").value.trim();
-  const totalBayar = hitungRingkasan().total; // hitung SEBELUM keranjang dikosongkan
+  const totalBayar = hitungRingkasan().total;
 
-  // ambilTeksWilayah() ada di api.js (hasil pilihan provinsi/kota/kecamatan dari API)
   const tujuan = typeof ambilTeksWilayah === "function" ? ambilTeksWilayah() : "";
   let kalimat = "Terima kasih, " + namaPenerima + "! Pesanan senilai " + formatRupiah(totalBayar) + " sudah kami terima.";
   if (tujuan !== "") kalimat += " Dikirim ke " + tujuan + ".";
   tampilkanPesan(pesanCheckout, kalimat, true);
 
-  // Reset keranjang & promo
   keranjang = [];
   promoAktif = false;
   simpanData();
   gambarKeranjang();
   formCheckout.reset();
-  if (typeof resetWilayah === "function") resetWilayah(); // kosongkan pilihan wilayah
+  if (typeof resetWilayah === "function") resetWilayah();
 
   setStatusPesanan(25, "Pesanan diterima, sedang diproses");
 });
 
-// ===== MULAI (dijalankan sekali saat halaman dibuka) =====
-// Tanggal pengiriman tidak boleh sebelum hari ini
 const sekarang = new Date();
 const bulan = String(sekarang.getMonth() + 1).padStart(2, "0");
 const tanggal = String(sekarang.getDate()).padStart(2, "0");

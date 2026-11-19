@@ -2,9 +2,9 @@ const SUMBER_API = [
   "https://www.emsifa.com/api-wilayah-indonesia/v2", //v2 baru
   "https://emsifa.github.io/api-wilayah-indonesia/api" //v1
 ];
-let sumberAktif = SUMBER_API[0]; // sumber yang berhasil dipakai (diisi saat muatProvinsi)
+let sumberAktif = SUMBER_API[0];
 
-const ID_JATIM = "35";            // kode provinsi Jawa Timur
+const ID_JATIM = "35";
 const ONGKIR_JATIM = 10000;
 const ONGKIR_LUAR_JATIM = 25000;
 
@@ -26,14 +26,14 @@ function judulKata(teks) {
 }
 
 // Ambil data dari API.
-// async/await = "tunggu dulu sampai data dari internet datang, baru lanjut".
+// async/await
 async function ambilData(base, alamat) {
   const respons = await fetch(base + alamat);
   if (!respons.ok) {
     throw new Error("status " + respons.status);
   }
-  const isi = await respons.json();                   // 3) ubah isi balasan jadi data JavaScript
-  return Array.isArray(isi) ? isi : isi.data;         // versi baru membungkus daftar di dalam "data"
+  const isi = await respons.json();
+  return Array.isArray(isi) ? isi : isi.data;
 }
 
 // Isi <select> dengan daftar dari API
@@ -42,15 +42,14 @@ function isiPilihan(select, daftar, teksAwal) {
 
   daftar.forEach(function (item) {
     const opsi = document.createElement("option");
-    opsi.value = item.id;                     // contoh: "35"
-    opsi.textContent = judulKata(item.name);  // contoh: "Jawa Timur"
+    opsi.value = item.id;
+    opsi.textContent = judulKata(item.name);
     select.appendChild(opsi);
   });
 
   select.disabled = false;
 }
 
-// Kosongkan <select> dan kunci (tidak bisa dipilih)
 function kosongkanPilihan(select, teks) {
   select.innerHTML = '<option value="">' + teks + "</option>";
   select.disabled = true;
@@ -60,9 +59,6 @@ function teksTerpilih(select) {
   return select.options[select.selectedIndex].text;
 }
 
-// ===== 4. FUNGSI YANG DIPAKAI toko.js =====
-
-// Hasilnya contoh: "Kec. Lowokwaru, Kota Malang, Jawa Timur"
 function ambilTeksWilayah() {
   if (pilihProvinsi.value === "" || pilihKota.value === "" || pilihKecamatan.value === "") {
     return "";
@@ -70,7 +66,6 @@ function ambilTeksWilayah() {
   return "Kec. " + teksTerpilih(pilihKecamatan) + ", " + teksTerpilih(pilihKota) + ", " + teksTerpilih(pilihProvinsi);
 }
 
-// Dipanggil setelah checkout selesai
 function resetWilayah() {
   pilihProvinsi.value = "";
   kosongkanPilihan(pilihKota, "-- Pilih kota/kabupaten --");
@@ -80,34 +75,27 @@ function resetWilayah() {
   aturInfo("", false);
 }
 
-// ===== 5. MEMUAT DATA =====
-
-// Langkah 1: daftar provinsi, dimuat sekali saat halaman dibuka
 async function muatProvinsi() {
   aturInfo("Memuat daftar provinsi...", false);
   let alasan = "";
 
-  // Coba tiap sumber API satu per satu sampai ada yang berhasil
   for (let i = 0; i < SUMBER_API.length; i++) {
     try {
       const data = await ambilData(SUMBER_API[i], "/provinces.json");
       sumberAktif = SUMBER_API[i];
       isiPilihan(pilihProvinsi, data, "-- Pilih provinsi --");
       aturInfo("", false);
-      return; // berhasil -> selesai
+      return;
     } catch (error) {
-      // try/catch: kalau internet mati atau API bermasalah, halaman tidak rusak
       console.error("Sumber API ke-" + (i + 1) + " gagal:", error);
       alasan = error.message;
     }
   }
 
-  // Semua sumber gagal
   kosongkanPilihan(pilihProvinsi, "Gagal memuat");
   aturInfo("Gagal memuat data wilayah (" + alasan + "). Periksa koneksi internet lalu refresh halaman. Kamu tetap bisa isi alamat lengkap manual.", true);
 }
 
-// Langkah 2: saat provinsi dipilih -> ambil daftar kota
 pilihProvinsi.addEventListener("change", async function () {
   kosongkanPilihan(pilihKota, "-- Pilih kota/kabupaten --");
   kosongkanPilihan(pilihKecamatan, "-- Pilih kecamatan --");
@@ -119,7 +107,6 @@ pilihProvinsi.addEventListener("change", async function () {
     return;
   }
 
-  // Ongkir menyesuaikan provinsi, lalu tabel keranjang digambar ulang
   biayaOngkir = pilihProvinsi.value === ID_JATIM ? ONGKIR_JATIM : ONGKIR_LUAR_JATIM;
   gambarKeranjang();
   aturInfo("Ongkir ke wilayah ini " + formatRupiah(biayaOngkir) + " (gratis jika belanja minimal " + formatRupiah(GRATIS_ONGKIR_MIN) + ").", false);
@@ -135,7 +122,6 @@ pilihProvinsi.addEventListener("change", async function () {
   }
 });
 
-// Langkah 3: saat kota dipilih -> ambil daftar kecamatan
 pilihKota.addEventListener("change", async function () {
   kosongkanPilihan(pilihKecamatan, "-- Pilih kecamatan --");
   if (pilihKota.value === "") return;
